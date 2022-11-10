@@ -1,0 +1,47 @@
+title: |-
+  bitrise-snyk-scan
+summary: |
+  This is a step to run snyk SAST and dependencies scanning for mobile apps
+description: |
+  This is a step to run snyk SAST and dependencies scanning for mobile apps
+website: https://github.com/Zegocover/bitrise-snyk-scan
+source_code_url: https://github.com/Zegocover/bitrise-snyk-scan
+support_url: https://github.com/Zegocover/bitrise-snyk-scan/issues
+type_tags:
+  - test
+is_always_run: true
+is_skippable: true
+run_if: ""
+inputs:
+- os_list: 
+  opts:
+    title: "Project's OS"
+    is_expand: false
+    is_required: true
+    value_options: [ios|android]
+- severity_threshold: low
+  opts:
+    title: "Severity threshold"
+    summary: "Severity threshold (cannot be set to critical - not supported by 'snyk code'"
+    is_expand: false
+    is_required: true
+    value_options: [low|medium|high]
+- org_name: 
+  opts:
+    title: "Organisation name" 
+    summary: "Organisation name used to configure snyk organisation setting"
+    is_expand: false
+    is_required: true
+- snyk_auth_token: $SNYK_AUTH_TOKEN
+  opts:
+    title: "Snyk authentication token"
+    is_expand: true
+    is_required: true
+    is_sensitive: true
+    is_dont_change_value: true
+- js_scan: false
+  opts:
+    title: "Project is using javascript"
+    is_expand: false
+    is_required: false   
+    value_options: [true|false]

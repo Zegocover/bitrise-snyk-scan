@@ -76,7 +76,7 @@ envs:
 # Future additions
 Swift package manager is going to be added when support will be released from Snyk.
 
-# Further dependencies manager support
+# Further dependency managers support
 
 Here is an example of Maven support that has not been tested or integrated in the code of this plugin. If you need it, copy, test and debug any issues and open a PR to this step.
 

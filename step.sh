@@ -163,8 +163,11 @@ function main(){
     {
         if [[ ${os_list} == "ios" ]]; then
             snykscannerios-run
-        else
+        elif [[ ${os_list} == "android" ]]; then
             snykscannerandroid-run
+        else
+            echo "Unknown OS value"
+            exit 1
         fi
 
         if [[ ${js_scan} == "true" ]]; then
@@ -175,9 +178,9 @@ function main(){
     }
 
     if [ "$sast_findings" == "true" ] || [ "$dep_findings" == "1" ]; then
-        exit 1;
+        exit 1
     else
-        exit 0;
+        exit 0
     fi
 }
 

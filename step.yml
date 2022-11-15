@@ -13,7 +13,7 @@ is_always_run: true
 is_skippable: true
 run_if: ""
 inputs:
-- os_list: 
+- os_list: ""
   opts:
     title: "Project's OS"
     is_expand: false

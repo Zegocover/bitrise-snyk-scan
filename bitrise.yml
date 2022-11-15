@@ -5,7 +5,7 @@ app:
   envs:
   # If you want to share this step into a StepLib
   - BITRISE_STEP_ID: bitrise-snyk-scan
-  - BITRISE_STEP_VERSION: "0.1.2"
+  - BITRISE_STEP_VERSION: "0.1.0"
   - BITRISE_STEP_GIT_CLONE_URL: https://github.com/Zegocover/bitrise-snyk-scan.git
   - MY_STEPLIB_REPO_FORK_GIT_URL: https://github.com/NataliaAn/bitrise-steplib.git
        

@@ -35,7 +35,7 @@ function snykscannerandroid-run() {
     java -version
 
     mkdir /opt/gradle
-    curl https://gradle.org/next-steps/?version=6.9.3&format=bin
+    curl https://gradle.org/next-steps/?version=7.5.1&format=bin
     unzip -d /opt/gradle gradle-7.5.1-bin.zip
     ls /opt/gradle/gradle-7.5.1
 

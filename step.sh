@@ -29,7 +29,7 @@ function snykscannerandroid-run() {
         tar -xf jdk-19_linux-aarch64_bin.tar -C /usr/lib/jvm
     fi
     echo $JAVA_HOME
-    export JAVA_HOME=/usr/lib/jvm/jdk-19_linux-aarch64
+    export JAVA_HOME=/usr/lib/jvm/jdk-19_linux-aarch64/bin
     ls $JAVA_HOME
     #export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
     export PATH=$JAVA_HOME:$PATH

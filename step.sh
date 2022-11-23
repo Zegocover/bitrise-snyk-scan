@@ -29,8 +29,9 @@ function snykscannerandroid-run() {
         tar -xf jdk-19_linux-aarch64_bin.tar
     fi
 
+    find . -name Home | sed 's/^[^/\]*\///g'
     export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
-    export PATH="$JAVA_HOME"bin:$PATH
+    export PATH=$JAVA_HOME:$PATH
 
     curl https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip
     unzip -d /opt/gradle gradle-7.5.1-bin.zip

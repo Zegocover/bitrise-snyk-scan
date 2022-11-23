@@ -31,6 +31,7 @@ function snykscannerandroid-run() {
 
     export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
     export PATH="$JAVA_HOME"bin:$PATH
+    chmod +x "$JAVA_HOME"gradlew
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 

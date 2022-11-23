@@ -26,7 +26,7 @@ function snykscannerandroid-run() {
     else
         curl https://download.oracle.com/java/18/latest/jdk-18_linux-aarch64_bin.tar.gz --output jdk-18_linux-aarch64_bin.tar.gz 
         gunzip jdk-18_linux-aarch64_bin.tar.gz 
-        tar -xzf jdk-18_linux-aarch64_bin.tar
+        tar -xf jdk-18_linux-aarch64_bin.tar
     fi
 
     export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 

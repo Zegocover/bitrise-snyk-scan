@@ -22,14 +22,14 @@ function snykscannerandroid-run() {
     echo "--- Install JDK"
     if [[ $OSTYPE == 'darwin'* ]]; then
         curl https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz --output jdk-19_macos-x64_bin.tar.gz
-        tar -xf jdk-19_macos-x64_bin.tar.gz
+        tar -xf jdk-19_macos-x64_bin.tar.gz -C /usr/lib/jvm
     else
         curl https://download.oracle.com/java/19/latest/jdk-19_linux-aarch64_bin.tar.gz --output jdk-19_linux-aarch64_bin.tar.gz 
         gunzip jdk-19_linux-aarch64_bin.tar.gz 
-        tar -xf jdk-19_linux-aarch64_bin.tar
+        tar -xf jdk-19_linux-aarch64_bin.tar -C /usr/lib/jvm
     fi
     echo $JAVA_HOME
-    export JAVA_HOME=$(pwd)/jdk-19_linux-aarch64
+    export JAVA_HOME=/usr/lib/jvmjdk-19_linux-aarch64
     ls $JAVA_HOME
     #export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
     export PATH=$JAVA_HOME:$PATH

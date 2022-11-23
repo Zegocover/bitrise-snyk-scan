@@ -31,7 +31,17 @@ function snykscannerandroid-run() {
 
     export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
     export PATH="$JAVA_HOME"bin:$PATH
-    chmod +x "$JAVA_HOME"gradlew
+
+    java -version
+
+    mkdir /opt/gradle
+    curl https://gradle.org/next-steps/?version=6.9.3&format=bin
+    unzip -d /opt/gradle gradle-7.5.1-bin.zip
+    ls /opt/gradle/gradle-7.5.1
+
+    export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
+
+    gradle -v
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 

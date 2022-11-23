@@ -25,7 +25,6 @@ function snykscannerandroid-run() {
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
     chmod +x gradlew
-    gradle -v
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 

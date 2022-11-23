@@ -19,22 +19,22 @@ function snykscannerios-run() {
 # for java and kotlin
 function snykscannerandroid-run() {
     # This needs maintenance to latest
-    echo "--- Install JDK"
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        curl https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz --output jdk-19_macos-x64_bin.tar.gz
-        tar -xf jdk-19_macos-x64_bin.tar.gz -C /usr/lib/jvm
-    else
-        curl https://download.oracle.com/java/19/latest/jdk-19_linux-aarch64_bin.tar.gz --output jdk-19_linux-aarch64_bin.tar.gz 
-        gunzip jdk-19_linux-aarch64_bin.tar.gz 
-        tar -xf jdk-19_linux-aarch64_bin.tar -C /usr/lib/jvm
-    fi
+    #echo "--- Install JDK"
+    #if [[ $OSTYPE == 'darwin'* ]]; then
+    #    curl https://download.oracle.com/java/19/latest/jdk-19_macos-x64_bin.tar.gz --output jdk-19_macos-x64_bin.tar.gz
+    #    tar -xf jdk-19_macos-x64_bin.tar.gz -C /usr/lib/jvm
+    #else
+    #    curl https://download.oracle.com/java/19/latest/jdk-19_linux-aarch64_bin.tar.gz --output jdk-19_linux-aarch64_bin.tar.gz 
+    #    gunzip jdk-19_linux-aarch64_bin.tar.gz 
+    #    tar -xf jdk-19_linux-aarch64_bin.tar -C /usr/lib/jvm
+    #fi
     echo $JAVA_HOME
     export JAVA_HOME=/usr/lib/jvm/jdk-19_linux-aarch64/bin
     java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' 
-    ls $JAVA_HOME
+    #ls $JAVA_HOME
     #export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
-    export PATH=$JAVA_HOME:$PATH
-    echo $JAVA_HOME
+    #export PATH=$JAVA_HOME:$PATH
+    #echo $JAVA_HOME
 
     echo "--- Install gradle"
     curl https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip

@@ -30,14 +30,14 @@ function snykscannerandroid-run() {
     fi
 
     export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
-    export PATH=$JAVA_HOME/bin:$PATH
+    export PATH="$JAVA_HOME"bin:$PATH
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 
     if [ -n "${build_gradle}" ]
     then
         echo "--- Running Android dependency scan"
-        ./snyk test --all-sub-projects --severity-threshold=${severity_threshold} 
+        ./snyk test --all-sub-projects --severity-threshold=${severity_threshold} -d
     else
         echo '!!! No gradle requirement file was found'
     fi

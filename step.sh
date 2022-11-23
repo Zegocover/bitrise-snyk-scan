@@ -30,6 +30,7 @@ function snykscannerandroid-run() {
     fi
     echo $JAVA_HOME
     export JAVA_HOME=/usr/lib/jvm/jdk-19_linux-aarch64/bin
+    java -XshowSettings:properties -version 2>&1 > /dev/null | grep 'java.home' 
     ls $JAVA_HOME
     #export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
     export PATH=$JAVA_HOME:$PATH

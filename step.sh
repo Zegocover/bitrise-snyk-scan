@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eou pipefail
+set -eoux pipefail
 
 # for swift and objective-c
 function snykscannerios-run() {

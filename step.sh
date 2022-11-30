@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eou pipefail
+set -eoux pipefail
 
 # for swift and objective-c
 function snykscannerios-run() {
@@ -24,6 +24,7 @@ function snykscannerandroid-run() {
     ls /opt/gradle/gradle-7.5.1
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
+    ls /opt/gradle/gradle-7.5.1/bin
     chmod +x gradlew
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')

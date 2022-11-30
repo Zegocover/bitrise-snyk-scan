@@ -21,10 +21,10 @@ function snykscannerandroid-run() {
     echo "--- Install gradle"
     curl https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip
     unzip -d /opt/gradle gradle-7.5.1-bin.zip
-    ls /opt/gradle/gradle-7.5.1
+    ls /opt/gradle/gradle-7.5.1-bin
 
-    export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
-    ls /opt/gradle/gradle-7.5.1/bin
+    export PATH=$PATH:/opt/gradle/gradle-7.5.1-bin/bin
+    ls /opt/gradle/gradle-7.5.1-bin/bin
     chmod +x gradlew
 
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')

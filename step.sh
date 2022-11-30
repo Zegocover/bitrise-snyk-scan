@@ -24,7 +24,7 @@ function snykscannerandroid-run() {
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
 
-    build_gradle=$(find ${CODEFOLDER} -name '*.gradle')
+    build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 
     if [ -n "${build_gradle}" ]
     then

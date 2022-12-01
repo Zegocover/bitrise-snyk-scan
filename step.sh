@@ -87,6 +87,8 @@ function snykscannerjs-run() {
     if [ "$new_bash" -eq "1" ]; then 
         npm_files="$(find ${CODEFOLDER} -name 'package-lock.json' -print0)"
         readarray -d ' ' npm_files < <(echo ${npm_files//"package-lock.json"/" "})
+        package_files="$(find ${CODEFOLDER} -name 'package.json' -print0)"
+        readarray -d ' ' npm_files < <(echo ${package_files//"package.json"/" "})
     else
         # this has not been tested - might fail
         while IFS=  read -r -d $'\0'; do

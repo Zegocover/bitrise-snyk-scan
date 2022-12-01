@@ -24,11 +24,17 @@ function snykscannerandroid-run() {
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
 
+    scan_print="--- Running Android dependency scan"
+    if [[ ${js_scan} == "true" ]]; then
+        scan_print="--- Running Android and javascript dependency scan"
+        snykscannerjs-run
+    fi
+
     build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
 
     if [ -n "${build_gradle}" ]
     then
-        echo "--- Running Android dependency scan"
+        echo $scan_print
         ./snyk test --all-sub-projects --severity-threshold=${severity_threshold}
     else
         echo '!!! No gradle requirement file was found'
@@ -99,9 +105,6 @@ function snykscannerjs-run() {
         done
         cd ${CODEFOLDER}
     fi
-
-    echo "--- Running javascript dependency scan"
-    ./snyk test --all-projects --severity-threshold=${severity_threshold}
 }
 
 
@@ -161,10 +164,6 @@ function main(){
         else
             echo "Unknown OS value"
             exit 1
-        fi
-
-        if [[ ${js_scan} == "true" ]]; then
-            snykscannerjs-run
         fi
     } || {
         dep_findings=true

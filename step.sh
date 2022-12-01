@@ -29,7 +29,7 @@ function snykscannerandroid-run() {
     if [ -n "${build_gradle}" ]
     then
         echo "--- Running Android dependency scan"
-        ./snyk test --all-sub-projects --severity-threshold=${severity_threshold} -d
+        ./snyk test --all-sub-projects --severity-threshold=${severity_threshold}
     else
         echo '!!! No gradle requirement file was found'
     fi
@@ -101,7 +101,7 @@ function snykscannerjs-run() {
     fi
 
     echo "--- Running javascript dependency scan"
-    ./snyk test --all-projects --severity-threshold=${severity_threshold} 
+    ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
 }
 
 

@@ -101,7 +101,7 @@ function snykscannerjs-run() {
     fi
 
     echo "--- Running javascript dependency scan"
-    ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
+    ./snyk test --all-projects --severity-threshold=${severity_threshold}
 }
 
 

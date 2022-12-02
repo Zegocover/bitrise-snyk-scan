@@ -1,6 +1,21 @@
 #!/bin/bash
 set -eoux pipefail
 
+function bashversion() {
+    bash_version=$(bash --version | grep 1 | sed -nre 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
+    v1=$(echo ${bash_version} | cut -d'.' -f1)
+    v2=$(echo ${bash_version} | cut -d'.' -f2)
+
+    new_bash=0
+    if [ "$v1" -ge "4" ]; then
+        new_bash=1
+    elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
+        new_bash=1
+    fi
+
+    echo "$new_bash"
+}
+
 # for swift and objective-c
 function snykscannerios-run() {
     export GEM_HOME=$HOME/.gem
@@ -23,7 +38,7 @@ function snykscannerandroid-run() {
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
-    find . -name gradlew
+    chmod +x "$(find . -name gradlew)"
 
     scan_print="--- Running Android dependency scan"
     if [[ ${js_scan} == "true" ]]; then
@@ -31,30 +46,26 @@ function snykscannerandroid-run() {
         snykscannerjs-run
     fi
 
-    build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
+    new_bash=$(bashversion)
 
-    if [ -n "${build_gradle}" ]
-    then
+    echo "--- Checking all build.gradle files in the project"
+    gradle_files=()
+    if [ "$new_bash" -eq "1" ]; then 
+        gradle_files="$(find ${CODEFOLDER} -name 'build.gradle' -print0)"
+        readarray -d ' ' gradle_files < <(echo ${gradle_files//"build.gradle"/" "})
+    else
+        while IFS=  read -r -d $'\0'; do
+            gradle_files+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'build.gradle' -print0)
+    fi
+
+    len=${#gradle_files[@]};
+    if [[ len -gt 0 ]]; then
         echo $scan_print
         ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
     else
         echo '!!! No gradle requirement file was found'
     fi
-}
-
-function bashversion() {
-    bash_version=$(bash --version | grep 1 | sed -nre 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
-    v1=$(echo ${bash_version} | cut -d'.' -f1)
-    v2=$(echo ${bash_version} | cut -d'.' -f2)
-
-    new_bash=0
-    if [ "$v1" -ge "4" ]; then
-        new_bash=1
-    elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
-        new_bash=1
-    fi
-
-    echo "$new_bash"
 }
 
 function snykscannerjs-run() {

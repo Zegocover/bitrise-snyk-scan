@@ -71,7 +71,7 @@ function snykscannerjs-run() {
         done < <(find ${CODEFOLDER} -name 'yarn.lock' -print0)
     fi
 
-    len=${yarn_files[@]};
+    len=${#yarn_files[@]};
     if [[ len -gt 0 ]]; then
         echo "--- Running yarn installation"
         for i in "${yarn_files[@]}"

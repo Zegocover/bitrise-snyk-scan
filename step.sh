@@ -96,7 +96,7 @@ function snykscannerjs-run() {
         done < <(find ${CODEFOLDER} -name 'package-lock.json')
     fi
 
-    en=${npm_files[@]};
+    len=${npm_files[@]};
     if [[ len -gt 0 ]]; then
         echo "--- Running npm installation"
         for i in "${npm_files[@]}"

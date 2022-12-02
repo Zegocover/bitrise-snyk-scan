@@ -66,7 +66,6 @@ function snykscannerjs-run() {
         readarray -d ' ' yarn_files < <(echo ${yarn_files//"yarn.lock"/" "})
     else
         while IFS=  read -r -d $'\0'; do
-            echo $REPLY
             yarn_files+=("$REPLY")
         done < <(find ${CODEFOLDER} -name 'yarn.lock' -print0)
     fi
@@ -76,8 +75,9 @@ function snykscannerjs-run() {
         echo "--- Running yarn installation"
         for i in "${yarn_files[@]}"
         do
-            cd $i
-            echo "Running yarn install for $i"
+            dir=$(echo $i || sed 's|.*/||')
+            cd $dir
+            echo "Running yarn install for $dir"
             yarn install
         done
         cd ${CODEFOLDER}
@@ -88,21 +88,21 @@ function snykscannerjs-run() {
     if [ "$new_bash" -eq "1" ]; then 
         npm_files="$(find ${CODEFOLDER} -name 'package-lock.json' -print0)"
         readarray -d ' ' npm_files < <(echo ${npm_files//"package-lock.json"/" "})
-        package_files="$(find ${CODEFOLDER} -name 'package.json' -print0)"
-        readarray -d ' ' npm_files < <(echo ${package_files//"package.json"/" "})
+       # package_files="$(find ${CODEFOLDER} -name 'package.json' -print0)"
+       # readarray -d ' ' npm_files < <(echo ${package_files//"package.json"/" "})
     else
-        # this has not been tested - might fail
         while IFS=  read -r -d $'\0'; do
-        yarn_files+=("$REPLY")
-        done < <(find ${CODEFOLDER} -name 'package-lock.json')
+            npm_files+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'package-lock.json' -print0)
     fi
 
-    len=${npm_files[@]};
+    len=${#npm_files[@]};
     if [[ len -gt 0 ]]; then
         echo "--- Running npm installation"
         for i in "${npm_files[@]}"
         do
-            cd $i
+            dir=$(echo $i || sed 's|.*/||')
+            cd $dir
             echo "Running npm install for $i"
             npm install
         done

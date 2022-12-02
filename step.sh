@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eoux pipefail
+set -eou pipefail
 
 # for swift and objective-c
 function snykscannerios-run() {
@@ -35,7 +35,7 @@ function snykscannerandroid-run() {
     if [ -n "${build_gradle}" ]
     then
         echo $scan_print
-        ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
+        ./snyk test --all-projects --severity-threshold=${severity_threshold}
     else
         echo '!!! No gradle requirement file was found'
     fi

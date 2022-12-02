@@ -49,8 +49,8 @@ function bashversion() {
     new_bash=0
     if [ "$v1" -ge "4" ]; then
         new_bash=1
-    #elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
-     #   new_bash=1
+    elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
+        new_bash=1
     fi
 
     echo "$new_bash"

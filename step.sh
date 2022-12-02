@@ -66,8 +66,9 @@ function snykscannerjs-run() {
         readarray -d ' ' yarn_files < <(echo ${yarn_files//"yarn.lock"/" "})
     else
         while IFS=  read -r -d $'\0'; do
+            echo $REPLY
             yarn_files+=("$REPLY")
-        done < <(find ${CODEFOLDER} -name 'yarn.lock')
+        done < <(find ${CODEFOLDER} -name 'yarn.lock' -print0)
     fi
 
     len=${yarn_files[@]};

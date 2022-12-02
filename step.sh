@@ -35,7 +35,7 @@ function snykscannerandroid-run() {
     if [ -n "${build_gradle}" ]
     then
         echo $scan_print
-        ./snyk test --all-projects --severity-threshold=${severity_threshold}
+        ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
     else
         echo '!!! No gradle requirement file was found'
     fi

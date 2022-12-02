@@ -51,7 +51,7 @@ function snykscannerandroid-run() {
     echo "--- Checking all build.gradle files in the project"
     gradle_files=()
     if [ "$new_bash" -eq "1" ]; then 
-        gradle_files="$(find ${CODEFOLDER} -name 'build.gradle' -print0)"
+        gradle_files="$(find ${CODEFOLDER} -name 'build.gradle')"
         readarray -d ' ' gradle_files < <(echo ${gradle_files//"build.gradle"/" "})
     else
         while IFS=  read -r -d $'\0'; do

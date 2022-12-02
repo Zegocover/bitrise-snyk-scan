@@ -47,8 +47,10 @@ function bashversion() {
     v2=$(echo ${bash_version} | cut -d'.' -f2)
 
     new_bash=0
-    if [ "$v1" -ge "4" ] && [ "$v2" -gt "3" ]; then
+    if [ "$v1" -ge "4" ]; then
         new_bash=1
+    #elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
+     #   new_bash=1
     fi
 
     echo "$new_bash"
@@ -75,7 +77,7 @@ function snykscannerjs-run() {
         echo "--- Running yarn installation"
         for i in "${yarn_files[@]}"
         do
-            dir=$(echo $i || sed 's|.*/||')
+            dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
             cd $dir
             echo "Running yarn install for $dir"
             yarn install
@@ -101,7 +103,7 @@ function snykscannerjs-run() {
         echo "--- Running npm installation"
         for i in "${npm_files[@]}"
         do
-            dir=$(echo $i || sed 's|.*/||')
+            dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
             cd $dir
             echo "Running npm install for $i"
             npm install

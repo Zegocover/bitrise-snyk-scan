@@ -1,5 +1,5 @@
 #!/bin/bash
-set -eoux pipefail
+set -eou pipefail
 
 function bashversion() {
     bash_version=$(bash --version | grep 1 | sed -nre 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
@@ -62,7 +62,7 @@ function snykscannerandroid-run() {
     len=${#gradle_files[@]};
     if [[ len -gt 0 ]]; then
         echo $scan_print
-        ./snyk test --all-projects --severity-threshold=${severity_threshold} -d
+        ./snyk test --all-projects --severity-threshold=${severity_threshold}
     else
         echo '!!! No gradle requirement file was found'
     fi

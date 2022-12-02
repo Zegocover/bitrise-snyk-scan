@@ -23,6 +23,7 @@ function snykscannerandroid-run() {
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
+    find . -name gradlew
 
     scan_print="--- Running Android dependency scan"
     if [[ ${js_scan} == "true" ]]; then

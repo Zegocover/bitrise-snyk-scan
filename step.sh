@@ -65,8 +65,6 @@ function snykscannerandroid-run() {
         snykscannerjs-run
     fi
 
-    new_bash=$(bashversion)
-
     echo "--- Checking all build.gradle files in the project"
     gradle_files=()
     if [ "$new_bash" -eq "1" ]; then 

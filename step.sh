@@ -50,7 +50,7 @@ function snykscannerandroid-run() {
         done < <(find ${CODEFOLDER} -name 'gradlew' -print0)
     fi
     
-    $(find ${CODEFOLDER} -name 'grandlew' -print0)
+    find ${CODEFOLDER} -name 'grandlew'
     for i in "${gradlew[@]}"
     do
         dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')

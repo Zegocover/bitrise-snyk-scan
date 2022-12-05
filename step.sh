@@ -41,6 +41,7 @@ function snykscannerandroid-run() {
     gradlew=$(find . -name gradlew)
     for i in "${gradlew[@]}"
     do
+        echo $i
         dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
         cd $dir
         chmod +x "$dir/gradlew"

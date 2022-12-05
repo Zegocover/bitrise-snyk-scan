@@ -200,7 +200,7 @@ function main(){
         dep_findings=true
     }
 
-    if [ "$sast_findings" == "true" ] || [ "$dep_findings" == "1" ]; then
+    if [ "$sast_findings" == "true" ] || [ "$dep_findings" == "true" ]; then
         exit 1
     else
         exit 0

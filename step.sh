@@ -56,7 +56,7 @@ function snykscannerandroid-run() {
         dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
         echo $i
         cd $dir
-        chmod +x "$dir/gradlew"
+        chmod +x $(pwd)/gradlew
     done
     cd ${CODEFOLDER}
 

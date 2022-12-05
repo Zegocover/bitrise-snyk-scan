@@ -38,7 +38,16 @@ function snykscannerandroid-run() {
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
-    gradlew=$(find . -name gradlew)
+    gradlew=()
+    if [ "$new_bash" -eq "1" ]; then 
+        gradlew="$(find ${CODEFOLDER} -name 'grandlew' -print0)"
+        readarray -d ' ' gradlew < <(echo ${gradlew//"gradlew"/" "})
+    else
+        while IFS=  read -r -d $'\0'; do
+            gradlew+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'gradlew' -print0)
+    fi
+    
     for i in "${gradlew[@]}"
     do
         echo $i

@@ -38,6 +38,8 @@ function snykscannerandroid-run() {
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
+    new_bash=$(bashversion)
+
     gradlew=()
     if [ "$new_bash" -eq "1" ]; then 
         gradlew="$(find ${CODEFOLDER} -name 'grandlew' -print0)"

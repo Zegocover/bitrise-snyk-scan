@@ -38,7 +38,16 @@ function snykscannerandroid-run() {
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
-    chmod +x "$(find . -name gradlew)"
+    gradlew=$(find . -name gradlew)
+    for i in "${gradlew[@]}"
+    do
+        dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
+        cd $dir
+        chmod +x "$dir/gradlew"
+    done
+    cd ${CODEFOLDER}
+
+    chmod +x 
 
     scan_print="--- Running Android dependency scan"
     if [[ ${js_scan} == "true" ]]; then

@@ -42,7 +42,7 @@ function snykscannerandroid-run() {
 
     gradlew=()
     if [ "$new_bash" -eq "1" ]; then 
-        gradlew="$(find ${CODEFOLDER} -name 'gradlew' -print0)"
+        gradlew="$(find ${CODEFOLDER} -name 'gradlew')"
         readarray -d ' ' gradlew < <(echo ${gradlew//"gradlew"/" "})
     else
         while IFS=  read -r -d $'\0'; do

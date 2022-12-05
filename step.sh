@@ -1,6 +1,21 @@
 #!/bin/bash
 set -eou pipefail
 
+function bashversion() {
+    bash_version=$(bash --version | grep 1 | sed -nre 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
+    v1=$(echo ${bash_version} | cut -d'.' -f1)
+    v2=$(echo ${bash_version} | cut -d'.' -f2)
+
+    new_bash=0
+    if [ "$v1" -ge "4" ]; then
+        new_bash=1
+    elif [ "$v1" -eq "4" ] && [ "$v2" -gt "3" ]; then
+        new_bash=1
+    fi
+
+    echo "$new_bash"
+}
+
 # for swift and objective-c
 function snykscannerios-run() {
     export GEM_HOME=$HOME/.gem
@@ -18,41 +33,55 @@ function snykscannerios-run() {
 
 # for java and kotlin
 function snykscannerandroid-run() {
-    # This needs maintenance to latest
-    echo "--- Install JDK"
-    if [[ $OSTYPE == 'darwin'* ]]; then
-        curl https://download.oracle.com/java/18/latest/jdk-18_macos-x64_bin.tar.gz --output jdk-18_macos-x64_bin.tar.gz
-        tar -xf jdk-18_macos-x64_bin.tar.gz
+    echo "--- Install gradle"
+    curl https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip
+    unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
+
+    export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin
+    new_bash=$(bashversion)
+
+    gradlew=()
+    if [ "$new_bash" -eq "1" ]; then 
+        gradlew="$(find ${CODEFOLDER} -name 'gradlew')"
+        readarray -d ' ' gradlew < <(echo ${gradlew//"gradlew"/" "})
     else
-        curl https://download.oracle.com/java/18/latest/jdk-18_linux-aarch64_bin.tar.gz --output jdk-18_linux-aarch64_bin.tar.gz 
-        tar -xf jdk-18_linux-aarch64_bin.tar.gz
+        while IFS=  read -r -d $'\0'; do
+            gradlew+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'gradlew' -print0)
+    fi
+    
+    for i in "${gradlew[@]}"
+    do
+        dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
+        cd $dir
+        chmod +x ${dir}/gradlew
+    done
+    cd ${CODEFOLDER}
+
+    scan_print="--- Running Android dependency scan"
+    if [[ ${js_scan} == "true" ]]; then
+        scan_print="--- Running Android and javascript dependency scan"
+        snykscannerjs-run
     fi
 
-    export JAVA_HOME=$(pwd)/$(find . -name Home | sed 's/^[^/\]*\///g') 
-    export PATH=$JAVA_HOME/bin:$PATH
+    echo "--- Checking all build.gradle files in the project"
+    gradle_files=()
+    if [ "$new_bash" -eq "1" ]; then 
+        gradle_files="$(find ${CODEFOLDER} -name 'build.gradle')"
+        readarray -d ' ' gradle_files < <(echo ${gradle_files//"build.gradle"/" "})
+    else
+        while IFS=  read -r -d $'\0'; do
+            gradle_files+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'build.gradle' -print0)
+    fi
 
-    build_gradle=$(find ${CODEFOLDER} -name 'build.gradle')
-
-    if [ -n "${build_gradle}" ]
-    then
-        echo "--- Running Android dependency scan"
-        ./snyk test --all-sub-projects --severity-threshold=${severity_threshold} 
+    len=${#gradle_files[@]};
+    if [[ len -gt 0 ]]; then
+        echo $scan_print
+        ./snyk test --all-projects --severity-threshold=${severity_threshold}
     else
         echo '!!! No gradle requirement file was found'
     fi
-}
-
-function bashversion() {
-    bash_version=$(bash --version | grep 1 | sed -nre 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
-    v1=$(echo ${bash_version} | cut -d'.' -f1)
-    v2=$(echo ${bash_version} | cut -d'.' -f2)
-
-    new_bash=0
-    if [ "$v1" -ge "4" ] && [ "$v2" -gt "3" ]; then
-        new_bash=1
-    fi
-
-    echo "$new_bash"
 }
 
 function snykscannerjs-run() {
@@ -68,16 +97,17 @@ function snykscannerjs-run() {
     else
         while IFS=  read -r -d $'\0'; do
             yarn_files+=("$REPLY")
-        done < <(find ${CODEFOLDER} -name 'yarn.lock')
+        done < <(find ${CODEFOLDER} -name 'yarn.lock' -print0)
     fi
 
-    len=${yarn_files[@]};
+    len=${#yarn_files[@]};
     if [[ len -gt 0 ]]; then
         echo "--- Running yarn installation"
         for i in "${yarn_files[@]}"
         do
-            cd $i
-            echo "Running yarn install for $i"
+            dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
+            cd $dir
+            echo "Running yarn install for $dir"
             yarn install
         done
         cd ${CODEFOLDER}
@@ -89,26 +119,23 @@ function snykscannerjs-run() {
         npm_files="$(find ${CODEFOLDER} -name 'package-lock.json' -print0)"
         readarray -d ' ' npm_files < <(echo ${npm_files//"package-lock.json"/" "})
     else
-        # this has not been tested - might fail
         while IFS=  read -r -d $'\0'; do
-        yarn_files+=("$REPLY")
-        done < <(find ${CODEFOLDER} -name 'package-lock.json')
+            npm_files+=("$REPLY")
+        done < <(find ${CODEFOLDER} -name 'package-lock.json' -print0)
     fi
 
-    en=${npm_files[@]};
+    len=${#npm_files[@]};
     if [[ len -gt 0 ]]; then
         echo "--- Running npm installation"
         for i in "${npm_files[@]}"
         do
-            cd $i
+            dir=$(echo "$i" | sed 's|.*\\\(.*\)|\1|')
+            cd $dir
             echo "Running npm install for $i"
             npm install
         done
         cd ${CODEFOLDER}
     fi
-
-    echo "--- Running javascript dependency scan"
-    ./snyk test --all-projects --severity-threshold=${severity_threshold} 
 }
 
 
@@ -169,15 +196,11 @@ function main(){
             echo "Unknown OS value"
             exit 1
         fi
-
-        if [[ ${js_scan} == "true" ]]; then
-            snykscannerjs-run
-        fi
     } || {
         dep_findings=true
     }
 
-    if [ "$sast_findings" == "true" ] || [ "$dep_findings" == "1" ]; then
+    if [ "$sast_findings" == "true" ] || [ "$dep_findings" == "true" ]; then
         exit 1
     else
         exit 0

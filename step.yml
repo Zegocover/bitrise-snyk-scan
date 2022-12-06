@@ -1,5 +1,5 @@
 title: |-
-  bitrise-snyk-scan
+  Bitrise Snyk Scan
 summary: |
   This is a step to run snyk SAST and dependencies scanning for mobile apps
 description: |
@@ -18,14 +18,19 @@ inputs:
     title: "Project's OS"
     is_expand: false
     is_required: true
-    value_options: [ios|android]
+    value_options: 
+    - ios
+    - android
 - severity_threshold: low
   opts:
     title: "Severity threshold"
     summary: "Severity threshold (cannot be set to critical - not supported by 'snyk code'"
     is_expand: false
     is_required: true
-    value_options: [low|medium|high]
+    value_options: 
+    - low
+    - medium
+    - high
 - org_name: 
   opts:
     title: "Organisation name" 
@@ -44,4 +49,6 @@ inputs:
     title: "Project is using javascript"
     is_expand: false
     is_required: false   
-    value_options: [true|false]
+    value_options: 
+    - true
+    - false

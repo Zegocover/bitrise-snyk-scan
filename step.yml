@@ -19,8 +19,8 @@ inputs:
     is_expand: false
     is_required: true
     value_options: 
-    - ios
-    - android
+    - "ios"
+    - "android"
 - severity_threshold: low
   opts:
     title: "Severity threshold"
@@ -28,9 +28,9 @@ inputs:
     is_expand: false
     is_required: true
     value_options: 
-    - low
-    - medium
-    - high
+    - "low"
+    - "medium"
+    - "high"
 - org_name: 
   opts:
     title: "Organisation name" 
@@ -50,5 +50,5 @@ inputs:
     is_expand: false
     is_required: false   
     value_options: 
-    - true
-    - false
+    - "true"
+    - "false"

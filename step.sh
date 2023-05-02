@@ -23,7 +23,7 @@ function snykscannerios-run() {
     export PATH=$GEM_HOME/${ruby_version}/bin:$PATH
 
     gem install cocoapods --user-install    
-    pod install # for podfile
+    pod install --project-directory=${project_directory} # for podfile
 
     bundle install # for gemfile
 

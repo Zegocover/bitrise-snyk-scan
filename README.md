@@ -24,6 +24,7 @@ Create a workflow in your project's `bitrise.yml` as shown next
     - git::https://github.com/Zegocover/bitrise-snyk-scan.git: 
         title: Snyk
         inputs:
+        - project_directory: $BITRISE_SOURCE_DIR // project directory is different from the source dir?
         - os_list: ios // is the project ios or android?
         - severity_threshold: low // critical is not supported by'snyk code'
         - org_name: some_name // Used to configure snyk organisation setting

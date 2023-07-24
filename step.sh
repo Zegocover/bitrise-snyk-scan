@@ -34,7 +34,7 @@ function snykscannerios-run() {
 # for java and kotlin
 function snykscannerandroid-run() {
     echo "--- Install gradle"
-    curl https://downloads.gradle-dn.com/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip
+    curl https://services.gradle.org/distributions/gradle-7.5.1-bin.zip --output gradle-7.5.1-bin.zip
     unzip -qq -d /opt/gradle gradle-7.5.1-bin.zip
 
     export PATH=$PATH:/opt/gradle/gradle-7.5.1/bin

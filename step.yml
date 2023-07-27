@@ -16,7 +16,7 @@ inputs:
 - project_directory: $BITRISE_SOURCE_DIR
   opts:
     title: "Project directory"
-    is_expand: false
+    is_expand: true
     is_required: true
 - os_list: ios
   opts:
